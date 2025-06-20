@@ -1,6 +1,6 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  clearMocks: true,
-  coverageDirectory: "coverage",
-};
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    clearMocks: true,
+  };
+  

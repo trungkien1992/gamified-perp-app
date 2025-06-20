@@ -1,8 +1,10 @@
-import { Server as HttpServer } from 'http';
-import WebSocket, { WebSocketServer } from 'ws';
-// This file is simplified as its internal logic is not under test.
+// This is a simplified dependency for demonstration.
 class WebSocketService {
-  init(server: HttpServer) { /* Attaches to server */ }
-  sendToUser(userId: number, message: any) { /* Sends message */ }
-}
-export const webSocketService = new WebSocketService();
+    sendToUser(userId: number, data: any) {
+      // In a real app, this would send data over a websocket.
+      console.log(`Sending data to user ${userId}`, data);
+    }
+  }
+  
+  export const webSocketService = new WebSocketService();
+  

@@ -1,12 +1,18 @@
-import { Pool } from 'pg';
-import Redis from 'ioredis';
+// A dependency that our service needs
 import { webSocketService } from './WebSocketService';
-// Note: No circular dependencies or self-imports.
+
+// A simple, exportable class. No complex patterns.
 export class XPService {
-  constructor(private pool: Pool, private redis: Redis) {}
-  async awardXP(userId: number, actionType: string, metadata?: any): Promise<void> {
-    // Core logic for awarding XP would go here.
-    // For now, it just notifies via WebSocket to demonstrate connectivity.
-    webSocketService.sendToUser(userId, { type: 'xp_gain' });
+  // Dependencies are passed in during creation (Dependency Injection)
+  constructor(private someDbClient: any, private someRedisClient: any) {}
+
+  async awardXP(userId: number): Promise<{ success: boolean; newXp: number }> {
+    // In a real app, you would use the db and redis clients here.
+    // e.g., await this.someDbClient.query(...)
+
+    // Simulate work and return a result
+    const newXp = 100;
+    webSocketService.sendToUser(userId, { type: 'xp_gain', xp: newXp });
+    return { success: true, newXp };
   }
 }
