@@ -16,7 +16,7 @@ The vision is to create a game that happens to trade perps, prioritizing fun, en
 
 1. **Clone the repository:**
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/trungkien1992/gamified-perp-app.git
     cd perps-gamified
     ```
 
