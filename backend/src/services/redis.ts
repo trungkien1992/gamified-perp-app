@@ -1,17 +1,11 @@
-export function getRedis() {
-  const fn = () => {};
-  return {
-    get: fn,
-    set: fn,
-    exists: fn,
-    del: fn,
-    expire: fn,
-    sadd: fn,
-    srem: fn,
-    zrevrank: fn,
-    zscore: fn,
-    setex: fn,
-    zadd: fn,
-    lpush: fn,
-  };
-} 
+import Redis from 'ioredis';
+import dotenv from 'dotenv';
+dotenv.config();
+
+let redis: Redis;
+export function getRedis(): Redis {
+  if (!redis) {
+    redis = new Redis(process.env.REDIS_URL as string);
+  }
+  return redis;
+}

@@ -1,27 +1,22 @@
 import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
-import { setupRoutes } from './routes';
-
-// dotenv.config();
+import { getPool } from './database/connection';
+import { getRedis } from './services/redis';
+import { TradingService } from './services/TradingService';
+import { XPService } from './services/XPService';
 
 const app = express();
-
-app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
-  credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+// --- Dependency Injection ---
+const pool = getPool();
+const redis = getRedis();
+const xpService = new XPService(pool, redis);
+export const tradingService = new TradingService(xpService); // Export instance for tests
+// --------------------------
+app.post('/trade', async (req, res) => {
+  const success = await tradingService.executeTrade(1, 'BTC');
+  if (success) {
+    res.status(200).json({ message: 'Trade executed' });
+  } else {
+    res.status(500).json({ message: 'Trade failed' });
+  }
 });
-
-// Setup API routes
-setupRoutes(app);
-
-export { app }; 
+export default app;
